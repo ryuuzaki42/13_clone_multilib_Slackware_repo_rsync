@@ -22,7 +22,7 @@
 #
 # Script: Clone some Slackware repository to a local source
 #
-# Last update: 08/01/2017
+# Last update: 15/01/2017
 #
 # Tip: Use the file inside one "old" ISO to make less things to download
 
@@ -74,7 +74,7 @@ if [ "$versionSlackware" == '' ]; then
     versionDownload="14.2"
 fi
 
-echo -en "$CYAN\nWill download (by lftp) $GREEN\"$versionDownload\"$CYAN from $GREEN\"$mirrorSource\"$NC"
+echo -e "$CYAN\nWill download (by lftp) $GREEN\"$versionDownload\"$CYAN from $GREEN\"$mirrorSource\"$NC"
 
 echo -en "$CYAN\nWant continue? (y)es - (n)o $GREEN(press enter to yes):$NC "
 read contineLftp
@@ -223,10 +223,12 @@ else
 
         echo -en "$CYAN\n\nFiles integrity:"
         if [ "$checkFilesResult" == '' ]; then
-            echo -en "$GREEN Good $BLUE- Files are equal to the server$NC"
+            echo -e "$GREEN Good $BLUE- Files are equal to the server$NC\n"
         else
-            echo -en "$RED Bad $BLUE- Files different to the server$NC"
-            echo -e "$RED$checkFilesResult$NC"
+            echo -e "$RED Bad $BLUE- Files different to the server$NC"
+            echo -e "$RED$checkFilesResult$NC\n"
         fi
+    else
+        echo -e "\nExiting...\n"
     fi
 fi
