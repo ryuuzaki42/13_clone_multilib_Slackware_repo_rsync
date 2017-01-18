@@ -22,7 +22,7 @@
 #
 # Script: Clone some Slackware repository to a local source
 #
-# Last update: 15/01/2017
+# Last update: 18/01/2017
 #
 # Tip: Use the file inside one "old" ISO to make less things to download
 
@@ -108,10 +108,10 @@ else
 
         else # $changeLogMd5sumResult == FAILED
             echo -e "$RED different$CYAN from the$BLUE CHECKSUMS.md5$CYAN in local folder$NC"
-            echo -en "$CYAN\nWant view the diff between these files?$NC\n(y)es - (n)o $GREEN(press enter to no):$NC "
+            echo -en "$CYAN\nWant view the diff between these files?$NC\n(y)es - (n)o $GREEN(press enter to yes):$NC "
             read diffChangLog
 
-            if [ "$diffChangLog" == 'y' ]; then
+            if [ "$diffChangLog" != 'n' ]; then
                 echo
                 diff -u CHECKSUMS.md5 $versionDownload/CHECKSUMS.md5 
             fi
