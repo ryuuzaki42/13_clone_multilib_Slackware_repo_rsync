@@ -1,0 +1,309 @@
+Slackware for x86_64 - multilib packages & build instructions
+=============================================================
+
+Slackware for the x86_64 architecture (or Slackware64 for short) is a pure
+64-bit Operating System, but by design it is "multilib-ready".  This means,
+that is it is possible to add a layer of software that will allow you to run
+32bit software without changes to either Slackware64 or these 32bit packages.
+Furthermore, the multilib-enabled Slackware64 can compile 32bit binaries,
+if you add the right software to it.
+
+This README contains instructions on how to use the packages in this
+directory to create a multilib Slackware64.
+
+A more extensive documentation is available on the Slackware Documentation
+Wiki, http://docs.slackware.com/slackware:multilib where you will also find
+the main mirror locations for downloading these packages.
+
+The exciting thing about Slackware64, is that you do not have to compile
+all these basic 32-bit packages from scratch.  You simply take them from the
+32-bit Slackware package tree!  Further down, I will explain how you can take
+a 32-bit Slackware package (say, the "mesa" package) and strip/re-package its
+content into a "mesa-compat32" package that you can install onto your 64-bit
+Slackware computer straight away.
+
+
+Enabling multilib
+=================
+
+Fast-track (examples assume slackware64-14.2 ... change to your needs).
+All of the following commands should be executed as the 'root' user:
+
+* In the location where you found this README, download the subdirectory with
+  the name that corresponds to the Slackware version you are running.  For
+  Slackware64 14.2 for instance, you would run the following command:
+    # lftp -c 'open http://slackware.com/~alien/multilib/ ; mirror -c -e 14.2'
+  and then change into the new "14.2" directory which has been created on
+  your computer:
+    # cd 14.2
+* First, you will upgrade your 64bit Slackware gcc and glibc packages to their
+  multilib versions by running the command:
+    # upgradepkg --reinstall --install-new *.t?z
+  in the directory you just changed to (the "14.2" directory in our case).
+  This will upgrade gcc and glibc packages, and also install a new package
+  called "compat32-tools".
+* You are now going to install 32-bit compatibility packages to support all
+  the 32-bit programs you may want to run (roughly 60 MB of packages, not all
+  that much really!).  These packages are located in the subdirectory called
+  "slackware64-compat32" which you also downloaded with the "lftp" command
+  shown above.  Run this command:
+    # upgradepkg --install-new slackware64-compat32/*-compat32/*.t?z
+* This procedure will also work if you already had a multilib setup and have
+  upgraded your Slackware to a newer release (new compat32 packages will be
+  installed and existing ones will be upgraded).
+* Done!  You need to reboot because of the glibc upgrade.
+
+In more detail:
+
+The following packages are replacements for - not additions to - standard
+Slackware packages.  You use the "upgradepkg" program to upgrade to my
+multilib versions of gcc and glibc.  You will need these in order to run,
+and build, 32-bit software on your 64-bit Slackware computer:
+
+==Slackware64 13.0==
+
+* The gcc compiler suite:
+  - gcc-4.3.3_multilib-x86_64-4alien.txz
+  - gcc-g++-4.3.3_multilib-x86_64-4alien.txz
+  - gcc-gfortran-4.3.3_multilib-x86_64-4alien.txz
+  - gcc-gnat-4.3.3_multilib-x86_64-4alien.txz
+  - gcc-java-4.3.3_multilib-x86_64-4alien.txz
+  - gcc-objc-4.3.3_multilib-x86_64-4alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.9_multilib-x86_64-5alien_slack13.0.txz
+  - glibc-i18n-2.9_multilib-x86_64-5alien_slack13.0.txz
+  - glibc-profile-2.9_multilib-x86_64-5alien_slack13.0.txz
+  - glibc-solibs-2.9_multilib-x86_64-5alien_slack13.0.txz
+  - glibc-zoneinfo-2.9_multilib-noarch-5alien_slack13.0.txz
+
+==Slackware64 13.1==
+
+* The gcc compiler suite:
+  - gcc-4.4.4_multilib-x86_64-1alien.txz
+  - gcc-g++-4.4.4_multilib-x86_64-1alien.txz
+  - gcc-gfortran-4.4.4_multilib-x86_64-1alien.txz
+  - gcc-gnat-4.4.4_multilib-x86_64-1alien.txz
+  - gcc-java-4.4.4_multilib-x86_64-1alien.txz
+  - gcc-objc-4.4.4_multilib-x86_64-1alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.11.1_multilib-x86_64-5alien_slack13.1.txz
+  - glibc-i18n-2.11.1_multilib-x86_64-5alien_slack13.1.txz
+  - glibc-profile-2.11.1_multilib-x86_64-5alien_slack13.1.txz
+  - glibc-solibs-2.11.1_multilib-x86_64-5alien_slack13.1.txz
+  - glibc-zoneinfo-2.11.1_multilib-noarch-5alien_slack13.1.txz
+
+==Slackware64 13.37==
+
+* The gcc compiler suite:
+  - gcc-4.5.2_multilib-x86_64-2alien.txz
+  - gcc-g++-4.5.2_multilib-x86_64-2alien.txz
+  - gcc-gfortran-4.5.2_multilib-x86_64-2alien.txz
+  - gcc-gnat-4.5.2_multilib-x86_64-2alien.txz
+  - gcc-java-4.5.2_multilib-x86_64-2alien.txz
+  - gcc-objc-4.5.2_multilib-x86_64-2alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.13_multilib-x86_64-7alien.txz
+  - glibc-i18n-2.13_multilib-x86_64-7alien.txz
+  - glibc-profile-2.13_multilib-x86_64-7alien.txz
+  - glibc-solibs-2.13_multilib-x86_64-7alien.txz
+  - glibc-zoneinfo-2013d_multilib-noarch-7alien.txz
+
+==Slackware64 14.0==
+
+* The gcc compiler suite:
+  - gcc-g++-4.7.1_multilib-x86_64-1alien.txz
+  - gcc-gfortran-4.7.1_multilib-x86_64-1alien.txz
+  - gcc-gnat-4.7.1_multilib-x86_64-1alien.txz
+  - gcc-go-4.7.1_multilib-x86_64-1alien.txz
+  - gcc-java-4.7.1_multilib-x86_64-1alien.txz
+  - gcc-objc-4.7.1_multilib-x86_64-1alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.15_multilib-x86_64-8alien.txz
+  - glibc-i18n-2.15_multilib-x86_64-8alien.txz
+  - glibc-profile-2.15_multilib-x86_64-8alien.txz
+  - glibc-solibs-2.15_multilib-x86_64-8alien.txz
+  - glibc-zoneinfo-2013d_2013d_multilib-noarch-8alien.txz
+
+==Slackware64 14.1==
+
+* The gcc compiler suite:
+  - gcc-4.8.2_multilib-x86_64-1alien.txz
+  - gcc-g++-4.8.2_multilib-x86_64-1alien.txz
+  - gcc-gfortran-4.8.2_multilib-x86_64-1alien.txz
+  - gcc-gnat-4.8.2_multilib-x86_64-1alien.txz
+  - gcc-go-4.8.2_multilib-x86_64-1alien.txz
+  - gcc-java-4.8.2_multilib-x86_64-1alien.txz
+  - gcc-objc-4.8.2_multilib-x86_64-1alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.17_multilib-x86_64-7alien.txz
+  - glibc-i18n-2.17_multilib-x86_64-7alien.txz
+  - glibc-profile-2.17_multilib-x86_64-7alien.txz
+  - glibc-solibs-2.17_multilib-x86_64-7alien.txz
+  - glibc-zoneinfo-2013d_multilib-noarch-7alien.txz
+
+==Slackware64 14.2==
+
+* The gcc compiler suite:
+  - gcc-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-g++-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-gfortran-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-gnat-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-go-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-java-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-objc-5.3.0_multilib-x86_64-3alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.23_multilib-x86_64-1alien.txz
+  - glibc-i18n-2.23_multilib-x86_64-1alien.txz
+  - glibc-profile-2.23_multilib-x86_64-1alien.txz
+  - glibc-solibs-2.23_multilib-x86_64-1alien.txz
+
+==Slackware64 current==
+
+* The gcc compiler suite:
+  - gcc-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-g++-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-gfortran-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-gnat-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-go-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-java-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-objc-5.4.0_multilib-x86_64-1alien.txz
+
+* The GNU libc libraries:
+  - glibc-2.24_multilib-x86_64-1alien.txz
+  - glibc-i18n-2.24_multilib-x86_64-1alien.txz
+  - glibc-profile-2.24_multilib-x86_64-1alien.txz
+  - glibc-solibs-2.24_multilib-x86_64-1alien.txz
+
+=======================================================================
+
+There is one more package (compat32-tools); you install it using the
+"installpkg" program:
+
+* The compat32-tools package is a "32-bit toolkit" (containing scripts that
+  facilitate the creation of 32bit packages):
+  - compat32-tools-3.7-noarch-1alien.tgz 
+
+* The above packages cover the essentials for getting ready to run and compile
+  32-bit software on Slackware64.  But in order to be able to actually run
+  software, you need a "layer" of additional 32-bit support libraries as well.
+  These libraries are taken from standard Slackware 32-bit packages using the
+  scripts that are part of my "compat32-tools" package.
+* You use the "massconvert32.sh" script for this conversion;
+  Suppose you have downloaded a local copy of 32-bit Slackware, and it is
+  available in the directory: /home/ftp/pub/slackware/slackware-14.2
+  then you would run the command:
+    # massconvert32.sh -i /home/ftp/pub/slackware/slackware-14.2/slackware"
+  and the result is a number of subdirectories in your current directory,
+  containing "compat32" packages which you can install directly (they will not
+  conflict with your 64-bit packages).
+* You can also instruct the "massconvert32.sh" script to download everything
+  you need from an external Slackware mirror, if you do not have (or do not
+  want to download) a complete local copy of Slackware:
+    # massconvert32.sh -u http://slackware.mirrors.tds.net/pub/slackware/slackware-14.2/slackware"
+* Or if you are lazy you can just download the "slackware64-compat32" directory
+  in which I provide all these converted packages for you.  It is a subdirectory
+  of the directory that contains the multilib gcc and glibc packages.
+
+Adding 32-bit programs
+======================
+
+The scripts in the "compat32-tools" package need some explanation.
+The package installs a detailed 'README' in the /usr/doc/compat32-tools-*/
+directory that will help you on your way.  Basically, you get three scripts
+to run:
+  - /etc/profile.d/32dev.sh
+    This is the same script that also comes with Slamd64 and which configures
+    an environment that you need for compiling 32-bit software (by preferring
+    the 32-bit compilers and libraries over their 64-bit versions)
+  - /usr/sbin/convertpkg-compat32
+    This script takes a 32-bit Slackware package and converts it to a
+    '-compat32' package that you can install (using "installpkg") on
+    Slackware64, alongside a 64-bit version of the same software.
+  - /usr/sbin/massconvert32.sh
+    This script contains an internal list of essential 32-bit Slackware
+    packages.  It uses the previously mentioned "convertpkg-compat32" script
+    to grab every package on its internal package list, and converts them
+    into '-compat32' packages.  You will end up with about 60 MB of packages
+    that you must install next, using the command "upgradepkg --install-new".
+    These 'compat32' packages create a 32-bit compatibility layer on top of
+    Slackware64.
+    The "massconvert32.sh" script can either download these 32-bit packages
+    from an external Slackware mirror, or else it can use a local Slackware
+    mirror if you have one in your LAN.
+    Optionally you can specify an output directory for the newly created
+    packages; by default they will be created in your current directory.  
+
+
+Running 32-bit programs
+=======================
+
+Running a 32-bit program is easy after the above system preparation - just
+download, install and start it.  You may find that you still miss a 32-bit
+Slackware library; in that case, use the "convertpkg-compat32" script to
+convert the original 32-bit Slackware package and install the resulting
+32bit compatibility package on Slackware64.
+
+
+Compiling 32-bit programs
+=========================
+
+In case you need to compile a 32-bit program (wine and grub are two examples
+of open source programs that are 32-bit only) you first configure your
+shell environment by running the command:
+
+  . /etc/profile.d/32dev.sh
+
+Note the 'dot' in front of the filename - that is actually part of the
+commandline!  It will change or create several environment variables so
+that 32-bit versions of binaries are preferred.  Once you are done compiling
+32-bit software, you should logout of your root shell in order to get rid of
+the modified build environment.
+
+In this changed environment, you will be able to use standard SlackBuilds to
+build 32-bit packages for Slackware64.
+There's a couple of things to keep in mind:
+
+(1) You have to define the ARCH variable as 'i486' because even on your
+    'x86_64' computer you are compiling a 32-bit program! 
+    This is related to the triplet of '$ARCH-slackware-linux' which 
+    is normally used in the 'configure' command.
+    (a) As an exception, you will have to compile the 'wine' package with
+        'ARCH=x86_64' because you will install this package directly on
+        your multilib computer without converting to a 'compat32' package.
+
+(2) If you want to install this 32-bit package on Slackware64-multilib,
+    you will have to convert it to a 'compat32' package: 
+
+      # convertpkg-compat32 -i /path/to/your/fresh/foo-VERSION-i486-BUILD.tgz
+      # upgradepkg --install-new /tmp/foo-compat32-VERSION-x86_64-BUILDcompat32.txz
+
+
+Acknowledgements
+================
+
+A lot of thanks should go to Fred Emmott, who created Slamd64, the original
+unofficial 64-bit fork of Slackware.  Although Slackware64 was not based
+on Fred's work, I still learnt most of what I know about setting up the
+32-bit part of a multilib Linux from his writings that are found in Slamd64.
+
+Cross Linux From Scratch. The CLFS Wiki
+(http://trac.cross-lfs.org/wiki/read#ReadtheCrossLinuxFromScratchBookOnline)
+is a 'must-read' if you want to understand how to port Linux to a new
+architecture. I took several ideas, concepts and patches from them when
+creating Slackware64 from scratch, and again when I created my multilib
+gcc/glibc packages from scratch (my README on this multilib-from-scratch
+is available in the ./source directory).
+
+
+Have fun!
+
+Eric
+
+=============================================================================
+Eric Hameleers <alien@slackware.com> 12-aug-2016
