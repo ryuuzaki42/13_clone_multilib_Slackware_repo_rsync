@@ -22,7 +22,7 @@
 #
 # Script: Clone some Slackware repository to a local source
 #
-# Last update: 07/04/2017
+# Last update: 13/06/2017
 #
 # Tip: Use the file inside one "old" ISO to make less things to download
 
@@ -68,9 +68,9 @@ if [ "$changeMirror" == 'y' ]; then
 fi
 
 echo -en "$CYAN\nWith version Slackware you want? $GREEN(press enter to 14.2):$NC "
-read -r versionSlackware
+read -r versionDownload
 
-if [ "$versionSlackware" == '' ]; then
+if [ "$versionDownload" == '' ]; then
     versionDownload="14.2"
 fi
 
