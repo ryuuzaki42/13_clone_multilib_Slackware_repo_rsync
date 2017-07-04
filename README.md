@@ -13,7 +13,7 @@ Clone Slackware multilib mirror to a local folder
 
 2 You will need upgrade your 64bit Slackware gcc and glibc packages to their multilib versions by running the command below as root. This also install a new package called "compat32-tools".
 
-\#upgradepkg --reinstall --install-new \*.t?z
+\# upgradepkg --reinstall --install-new \*.t?z
 
 3  Now you need to install 32-bit compatibility packages to support all the 32-bit programs you may want to run.
 
