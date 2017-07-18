@@ -22,12 +22,9 @@
 #
 # Script: Clone some Slackware repository to a local source
 #
-# Last update: 13/06/2017
+# Last update: 18/06/2017
 #
-# Tip: Use the file inside one "old" ISO to make less things to download
-
 input1=$1
-
 if [ "$input1" == "noColor" ]; then
     echo -e "\nColors disabled"
 else
