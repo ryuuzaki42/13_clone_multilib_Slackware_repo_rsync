@@ -115,10 +115,10 @@ else
             rm CHECKSUMS.md5
         fi
 
-        echo -en "$CYAN\\nCreate a md5sum for all local files (can take a while)? $NC\\n(y)es or (n)o $GREEN(press enter no):$NC "
-        read -r useMd5sumCheckBeforeDownload
-
         if [ "$contineOrJump" == 'y' ]; then
+            echo -en "$CYAN\\nCreate a md5sum for all local files (can take a while)? $NC\\n(y)es or (n)o $GREEN(press enter no):$NC "
+            read -r useMd5sumCheckBeforeDownload
+
             if [ "$useMd5sumCheckBeforeDownload" == 'y' ]; then
                 tmpMd5sumBeforeDownload=$(mktemp)
                 listOfFilesBeforeDownload=$(find $versionDownload/ -type f -print)
