@@ -22,25 +22,26 @@
 #
 # Script: Script to check if all packages in a folder are installed
 #
-# Last update: 12/01/2018
+# Last update: 15/08/2018
 #
-echo -e "\\n # Script to check if all packages in a folder are installed #"
+echo -e "\\n # Script to check if all packages in a folder (and subfolders) are installed #\\n"
 
 folderWork=$1
 if [ "$folderWork" == '' ]; then
-    echo -e "\\nError: You need pass the folder to work"
+    echo "Error: You need pass the folder to work"
 elif [ ! -d "$folderWork" ]; then
-    echo -e "\\nError: The directory \"$folderWork\" not exist"
+    echo "Error: The directory \"$folderWork\" not exist"
 else
     files=$(find "$folderWork" | grep -E "txz$|tgz$")
-
     filesName=$(echo "$files" | rev | cut -d '.' -f2- | cut -d '/' -f1 | rev)
+    filesName=$(echo "$filesName" | sort)
 
+    echo -e "Packages not installed:\\n"
     for pkg in $filesName; do
         locatePkg=$(ls "/var/log/packages/$pkg" 2> /dev/null)
 
         if [ "$locatePkg" == '' ]; then
-            echo -e "\\n$pkg - not installed"
+            echo "$pkg"
         fi
     done
 fi
