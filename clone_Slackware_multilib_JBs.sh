@@ -22,7 +22,7 @@
 #
 # Script: Clone some Slackware repository to a local source
 #
-# Last update: 07/02/2018
+# Last update: 14/09/2020
 #
 input1=$1
 if [ "$input1" == "noColor" ]; then
@@ -64,11 +64,17 @@ if [ "$changeMirror" == 'y' ]; then
     echo -e "$CYAN\\nNew mirror:$GREEN $mirrorSource$NC\\n"
 fi
 
-echo -en "$CYAN\\nWith version Slackware you want? $GREEN(press enter to 14.2):$NC "
+if find . -maxdepth 1 -type d | grep -q "current"; then
+    defaultSuggest="current"
+else
+    defaultSuggest="14.2"
+fi
+
+echo -en "\\n$CYAN# Most downloaded versions:$GREEN 14.0, 14.1, 14.2, current$CYAN\\nWith version Slackware you want? $GREEN(press enter to $defaultSuggest):$NC "
 read -r versionDownload
 
 if [ "$versionDownload" == '' ]; then
-    versionDownload="14.2"
+    versionDownload=$defaultSuggest
 fi
 
 echo -e "$CYAN\\nWill download (by lftp) $GREEN\"$versionDownload\"$CYAN from $GREEN\"$mirrorSource\"$NC"
