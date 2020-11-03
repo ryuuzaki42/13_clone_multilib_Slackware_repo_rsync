@@ -20,9 +20,11 @@
 #
 # Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
-# Script: Clone some Slackware repository to a local source using fltp
+# Script: Clone some Slackware repository to a local source using lftp
 #
-# Last update: 02/11/2020
+# Last update: 03/11/2020
+#
+# Tip: Use this script with a "old" local mirror (or ISO) to download less files
 #
 input1=$1
 if [ "$input1" == "noColor" ]; then
@@ -79,7 +81,7 @@ fi
 
 echo -e "$CYAN\\nWill download (by lftp) $GREEN\"$versionDownload\"$CYAN from $GREEN\"$mirrorSource\"$NC"
 
-echo -en "$CYAN\\nWant continue? (y)es - (n)o $GREEN(press enter to yes):$NC "
+echo -en "$CYAN\\nWant continue?$NC\\n(y)es - (n)o $GREEN(press enter to yes):$NC "
 read -r contineLftp
 
 if [ "$contineLftp" == 'n' ]; then
@@ -90,11 +92,11 @@ else
 
         echo -en "$CYAN\\nDownloading$BLUE CHECKSUMS.md5$CYAN to make a$BLUE fast check$CYAN (the$BLUE local$GREEN "
         echo -e "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN).$NC Please wait...\\n"
-        wget "$mirrorSource"/"$versionDownload"/CHECKSUMS.md5 -O CHECKSUMS.md5
+        wget "$mirrorSource/$versionDownload"/CHECKSUMS.md5 -O CHECKSUMS.md5
 
         cd "$versionDownload" || exit
         changeLogLocalMd5sum=$(md5sum CHECKSUMS.md5)
-        cd .. || exit
+        cd ../ || exit
 
         checkChangeLogMd5sum=$(echo -e "$changeLogLocalMd5sum" | md5sum -c 2> /dev/null)
 
@@ -116,7 +118,7 @@ else
 
             if [ "$diffChangLog" != 'n' ]; then
                 echo
-                diff -u CHECKSUMS.md5 "$versionDownload"/CHECKSUMS.md5
+                diff -u CHECKSUMS.md5 $versionDownload/CHECKSUMS.md5
             fi
             rm CHECKSUMS.md5
         fi
@@ -139,7 +141,7 @@ else
             fi
         fi
     else
-        contineOrJump="y"
+        contineOrJump='y'
     fi
 
     if [ "$contineOrJump" == 'y' ]; then
@@ -164,7 +166,7 @@ else
         changeResult=$(diff -w "$tmpMd5sumBeforeDownload" "$tmpMd5sumAfterDownload")
 
         if [ "$changeResult" == '' ]; then
-            echo -e "$CYAN\\nNone changes made in the local folder -$GREEN All file still the same after de download$NC\\n"
+            echo -e "$CYAN\\nNone changes made in the local folder -$GREEN All files still the same after the download$NC\\n"
         else
             echo -e "$RED\\n\\nChanges made in local files...$NC"
 
@@ -225,7 +227,7 @@ else
         if [ "$checkFilesResult" == '' ]; then
             echo -e "$GREEN Good $BLUE- Files are equal to the server$NC\\n"
         else
-            echo -e "$RED Bad $BLUE- Files different to the server$NC"
+            echo -e "$RED Bad $BLUE- Files are different to the server$NC"
             echo -e "$RED$checkFilesResult$NC\\n"
         fi
     else
