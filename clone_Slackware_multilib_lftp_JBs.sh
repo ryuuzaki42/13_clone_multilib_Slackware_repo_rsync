@@ -20,7 +20,7 @@
 #
 # Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
-# Script: Clone some Slackware repository to a local source using lftp
+# Script: Clone some Slackware repository to a local source using rsync
 #
 # Last update: 03/11/2020
 #
@@ -45,7 +45,8 @@ if [ "$input1" == "testColor" ]; then
     echo -e "\\n\\tTest colors: $RED RED $WHITE WHITE $PINK PINK $BLACK BLACK $BLUE BLUE $GREEN GREEN $CYAN CYAN $NC NC\\n"
 fi
 
-mirrorSource="http://bear.alienbase.nl/mirrors/people/alien/multilib"
+# mirrorSource="rsync://taper.alienbase.nl/mirrors/people/alien/multilib"
+mirrorSource="rsync://rsync.slackware.org.uk/people/alien/multilib"
 echo -e "$CYAN\\nDefault mirror:$GREEN $mirrorSource$NC"
 
 echo -en "$CYAN\\nWant change the mirror?$NC\\n(y)es - (n)o $GREEN(press enter to no):$NC "
@@ -54,16 +55,15 @@ read -r changeMirror
 if [ "$changeMirror" == 'y' ]; then
     mirrorSource=''
 
-    while echo "$mirrorSource" | grep -v -q -E "ftp|http"; do
+    while echo "$mirrorSource" | grep -v -q "rsync"; do
         echo -en "$CYAN\\nType the new mirror:$NC "
         read -r mirrorSource
 
-        if echo "$mirrorSource" | grep -v -q -E "ftp|http"; then
+        if echo "$mirrorSource" | grep -v -q "rsync"; then
             echo -e "$RED\\nError: the mirror \"$mirrorSource\" is not valid.\\nOne valid mirror has \"ftp\" or \"http\"$NC"
         fi
     done
-
-    echo -e "$CYAN\\nNew mirror:$GREEN $mirrorSource$NC\\n"
+    echo -e "$CYAN\\nNew mirror:$GREEN $mirrorSource$NC"
 fi
 
 if find . -maxdepth 1 -type d | grep -q "current"; then
@@ -79,7 +79,7 @@ if [ "$versionDownload" == '' ]; then
     versionDownload=$defaultSuggest
 fi
 
-echo -e "$CYAN\\nWill download (by lftp) $GREEN\"$versionDownload\"$CYAN from $GREEN\"$mirrorSource\"$NC"
+echo -e "$CYAN\\nWill download (by rsync) $GREEN\"$versionDownload\"$CYAN from $GREEN\"$mirrorSource\"$NC"
 
 echo -en "$CYAN\\nWant continue?$NC\\n(y)es - (n)o $GREEN(press enter to yes):$NC "
 read -r contineLftp
@@ -92,7 +92,7 @@ else
 
         echo -en "$CYAN\\nDownloading$BLUE CHECKSUMS.md5$CYAN to make a$BLUE fast check$CYAN (the$BLUE local$GREEN "
         echo -e "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN).$NC Please wait...\\n"
-        wget "$mirrorSource/$versionDownload"/CHECKSUMS.md5 -O CHECKSUMS.md5
+        rsync -az "$mirrorSource/$versionDownload/CHECKSUMS.md5" ./CHECKSUMS.md5
 
         cd "$versionDownload" || exit
         changeLogLocalMd5sum=$(md5sum CHECKSUMS.md5)
@@ -124,7 +124,7 @@ else
         fi
 
         if [ "$contineOrJump" == 'y' ]; then
-            echo -en "$CYAN\\nCreate a md5sum for all local files (can take a while)? $NC\\n(y)es or (n)o $GREEN(press enter no):$NC "
+            echo -en "$CYAN\\nCreate a md5sum for all local files (${RED}can take a while$CYAN)? $NC\\n(y)es or (n)o $GREEN(press enter no):$NC "
             read -r useMd5sumCheckBeforeDownload
 
             if [ "$useMd5sumCheckBeforeDownload" == 'y' ]; then
@@ -145,10 +145,16 @@ else
     fi
 
     if [ "$contineOrJump" == 'y' ]; then
+        rsyncCommand="rsync -ahv --delete --progress $mirrorSource/$versionDownload ./"
+
+        # -a archive mode, equivalent to -rlptgoD - recursion and want to preserve almost everything
+        # -h output numbers in a human-readable format; -v increase verbosity
+        # --delete delete extraneous files from destination directories
+        # --progress print information showing the progress of the transfer
+
         echo -en "$CYAN\\nDownloading files.$NC Please wait...\\n\\n"
-        lftp -c 'open '"$mirrorSource"'; mirror -c -e '"$versionDownload"'/'
-        # -c continue a mirror job if possible
-        # -e delete files not present at remote site
+        echo "$rsyncCommand"
+        eval "$rsyncCommand"
     fi
 
     if [ "$tmpMd5sumBeforeDownload" != '' ]; then
