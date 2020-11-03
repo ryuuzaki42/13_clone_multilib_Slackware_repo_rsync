@@ -1,11 +1,11 @@
-## clone_multilib_Slackware_repo
-Clone Slackware multilib mirror to a local folder
+## clone_multilib_Slackware_repo_lftp
+Clone Slackware multilib mirror to a local folder using lftp
 
-#### Default mirror: http://bear.alienbase.nl/mirrors/people/alien/multilib/
+#### Default mirror: http://bear.alienbase.nl/mirrors/people/alien/multilib
 
 #### Use:
 ```sh
-$ ./clone_Slackware_multilib_JBs.sh
+$ ./clone_Slackware_multilib_lftp_JBs.sh
 ```
 
 #### You can chose:
