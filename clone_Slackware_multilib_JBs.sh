@@ -20,9 +20,9 @@
 #
 # Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 #
-# Script: Clone some Slackware repository to a local source
+# Script: Clone some Slackware repository to a local source using fltp
 #
-# Last update: 14/09/2020
+# Last update: 02/11/2020
 #
 input1=$1
 if [ "$input1" == "noColor" ]; then
@@ -43,7 +43,7 @@ if [ "$input1" == "testColor" ]; then
     echo -e "\\n\\tTest colors: $RED RED $WHITE WHITE $PINK PINK $BLACK BLACK $BLUE BLUE $GREEN GREEN $CYAN CYAN $NC NC\\n"
 fi
 
-mirrorSource="http://bear.alienbase.nl/mirrors/people/alien/multilib/"
+mirrorSource="http://bear.alienbase.nl/mirrors/people/alien/multilib"
 echo -e "$CYAN\\nDefault mirror:$GREEN $mirrorSource$NC"
 
 echo -en "$CYAN\\nWant change the mirror?$NC\\n(y)es - (n)o $GREEN(press enter to no):$NC "
@@ -89,7 +89,7 @@ else
         echo -e "$CYAN\\nOlder folder download found ($GREEN$versionDownload/$CYAN)$NC"
 
         echo -en "$CYAN\\nDownloading$BLUE CHECKSUMS.md5$CYAN to make a$BLUE fast check$CYAN (the$BLUE local$GREEN "
-        echo -e "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN)$NC. Please wait...\\n"
+        echo -e "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN).$NC Please wait...\\n"
         wget "$mirrorSource"/"$versionDownload"/CHECKSUMS.md5 -O CHECKSUMS.md5
 
         cd "$versionDownload" || exit
@@ -129,7 +129,7 @@ else
                 tmpMd5sumBeforeDownload=$(mktemp)
                 listOfFilesBeforeDownload=$(find $versionDownload/ -type f -print)
 
-                echo -en "$CYAN\\nCreating a$BLUE md5sum$RED (before the download)$CYAN from files found (in the folder $GREEN$versionDownload/$CYAN)$NC. Please wait..."
+                echo -en "$CYAN\\nCreating a$BLUE md5sum$RED (before the download)$CYAN from files found (in the folder $GREEN$versionDownload/$CYAN).$NC Please wait..."
                 for file in $listOfFilesBeforeDownload; do
                     md5sum "$file" >> "$tmpMd5sumBeforeDownload"
                 done
@@ -143,7 +143,7 @@ else
     fi
 
     if [ "$contineOrJump" == 'y' ]; then
-        echo -en "$CYAN\\nDownloading files$NC. Please wait...\\n\\n"
+        echo -en "$CYAN\\nDownloading files.$NC Please wait...\\n\\n"
         lftp -c 'open '"$mirrorSource"'; mirror -c -e '"$versionDownload"'/'
         # -c continue a mirror job if possible
         # -e delete files not present at remote site
@@ -154,13 +154,13 @@ else
 
         listOfFilesAfterDownload=$(find $versionDownload/ -type f -print)
 
-        echo -en "$CYAN\\nCreating a$BLUE md5sum$RED (after the download)$CYAN from files (in the folder $GREEN$versionDownload/$CYAN)$NC. Please wait..."
+        echo -en "$CYAN\\nCreating a$BLUE md5sum$RED (after the download)$CYAN from files (in the folder $GREEN$versionDownload/$CYAN).$NC Please wait..."
         for file in $listOfFilesAfterDownload; do
             md5sum "$file" >> "$tmpMd5sumAfterDownload"
         done
         echo -e "$CYAN\\n\\nThe$BLUE md5sum$RED (after the download)$CYAN was saved in the tmp file: $GREEN$tmpMd5sumAfterDownload$NC"
 
-        echo -en "$CYAN\\nChecking the changes in the files$BLUE before$CYAN with$BLUE after$CYAN download$NC. Please wait..."
+        echo -en "$CYAN\\nChecking the changes in the files$BLUE before$CYAN with$BLUE after$CYAN download.$NC Please wait..."
         changeResult=$(diff -w "$tmpMd5sumBeforeDownload" "$tmpMd5sumAfterDownload")
 
         if [ "$changeResult" == '' ]; then
@@ -218,7 +218,7 @@ else
     read -r checkFiles
 
     if [ "$checkFiles" == 'y' ] || [ "$checkFiles" == '' ]; then
-        echo -en "$CYAN\\nChecking the integrity of the files$NC. Please wait..."
+        echo -en "$CYAN\\nChecking the integrity of the files.$NC Please wait..."
         checkFilesResult=$(tail +13 CHECKSUMS.md5 | md5sum -c --quiet)
 
         echo -en "$CYAN\\n\\nFiles integrity:"
