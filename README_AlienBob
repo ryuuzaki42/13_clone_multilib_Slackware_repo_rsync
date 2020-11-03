@@ -149,36 +149,36 @@ and build, 32-bit software on your 64-bit Slackware computer:
 ==Slackware64 14.2==
 
 * The gcc compiler suite:
-  - gcc-5.3.0_multilib-x86_64-3alien.txz
-  - gcc-g++-5.3.0_multilib-x86_64-3alien.txz
-  - gcc-gfortran-5.3.0_multilib-x86_64-3alien.txz
-  - gcc-gnat-5.3.0_multilib-x86_64-3alien.txz
-  - gcc-go-5.3.0_multilib-x86_64-3alien.txz
-  - gcc-java-5.3.0_multilib-x86_64-3alien.txz
-  - gcc-objc-5.3.0_multilib-x86_64-3alien.txz
+  - gcc-5.5.0_multilib-x86_64-1alien.txz
+  - gcc-g++-5.5.0_multilib-x86_64-1alien.txz
+  - gcc-gfortran-5.5.0_multilib-x86_64-1alien.txz
+  - gcc-gnat-5.5.0_multilib-x86_64-1alien.txz
+  - gcc-go-5.5.0_multilib-x86_64-1alien.txz
+  - gcc-java-5.5.0_multilib-x86_64-1alien.txz
+  - gcc-objc-5.5.0_multilib-x86_64-1alien.txz
 
 * The GNU libc libraries:
-  - glibc-2.23_multilib-x86_64-1alien.txz
-  - glibc-i18n-2.23_multilib-x86_64-1alien.txz
-  - glibc-profile-2.23_multilib-x86_64-1alien.txz
-  - glibc-solibs-2.23_multilib-x86_64-1alien.txz
+  - glibc-2.23_multilib-x86_64-4alien.txz
+  - glibc-i18n-2.23_multilib-x86_64-4alien.txz
+  - glibc-profile-2.23_multilib-x86_64-4alien.txz
+  - glibc-solibs-2.23_multilib-x86_64-4alien.txz
 
 ==Slackware64 current==
 
 * The gcc compiler suite:
-  - gcc-5.4.0_multilib-x86_64-1alien.txz
-  - gcc-g++-5.4.0_multilib-x86_64-1alien.txz
-  - gcc-gfortran-5.4.0_multilib-x86_64-1alien.txz
-  - gcc-gnat-5.4.0_multilib-x86_64-1alien.txz
-  - gcc-go-5.4.0_multilib-x86_64-1alien.txz
-  - gcc-java-5.4.0_multilib-x86_64-1alien.txz
-  - gcc-objc-5.4.0_multilib-x86_64-1alien.txz
+  - gcc-8.2.0_multilib-x86_64-1alien.txz
+  - gcc-brig-8.2.0_multilib-x86_64-1alien.txz
+  - gcc-g++-8.2.0_multilib-x86_64-1alien.txz
+  - gcc-gfortran-8.2.0_multilib-x86_64-1alien.txz
+  - gcc-gnat-8.2.0_multilib-x86_64-1alien.txz
+  - gcc-go-8.2.0_multilib-x86_64-1alien.txz
+  - gcc-objc-8.2.0_multilib-x86_64-1alien.txz
 
 * The GNU libc libraries:
-  - glibc-2.24_multilib-x86_64-1alien.txz
-  - glibc-i18n-2.24_multilib-x86_64-1alien.txz
-  - glibc-profile-2.24_multilib-x86_64-1alien.txz
-  - glibc-solibs-2.24_multilib-x86_64-1alien.txz
+  - glibc-2.29_multilib-x86_64-2alien.txz
+  - glibc-i18n-2.29_multilib-x86_64-2alien.txz
+  - glibc-profile-2.29_multilib-x86_64-2alien.txz
+  - glibc-solibs-2.29_multilib-x86_64-2alien.txz
 
 =======================================================================
 
@@ -187,7 +187,7 @@ There is one more package (compat32-tools); you install it using the
 
 * The compat32-tools package is a "32-bit toolkit" (containing scripts that
   facilitate the creation of 32bit packages):
-  - compat32-tools-3.7-noarch-1alien.tgz 
+  - compat32-tools-3.7-noarch-18alien.tgz 
 
 * The above packages cover the essentials for getting ready to run and compile
   32-bit software on Slackware64.  But in order to be able to actually run
@@ -209,6 +209,7 @@ There is one more package (compat32-tools); you install it using the
 * Or if you are lazy you can just download the "slackware64-compat32" directory
   in which I provide all these converted packages for you.  It is a subdirectory
   of the directory that contains the multilib gcc and glibc packages.
+
 
 Adding 32-bit programs
 ======================
@@ -284,6 +285,29 @@ There's a couple of things to keep in mind:
       # upgradepkg --install-new /tmp/foo-compat32-VERSION-x86_64-BUILDcompat32.txz
 
 
+Keeping your multilib up-to-date
+================================
+
+If you use slackpkg to keep your Slackware uptodate, then you may benefit from
+adding slackpkg+ (http://slakfinder.org/slackpkg+.html), an extension to
+slackpkg which allows you to manage package updates, not just for Slackware,
+but also for 3rd party repositories which adhere to the Slackware repository
+format.
+The Multilib repository is compatible with slackpkg+, and its configuration
+file has instructions on how to enable multilib repository support.  
+If you do not use slackpkg, then your best option is to keep a local mirror
+of the multilib repository for your Slackware version, and regularly run:
+  # cd /path/to/multilib/slackware_version_dir/
+  # upgradepkg --install-new *.t?z
+  # upgradepkg --install-new slackware64-compat32/*-compat32/*.t?z
+If you do use slackpkg but do not want to add slackpkg+ then you need to do
+the above but also take precautions so that slackpkg does not remove or
+replace the multilib packages. Add these lines to /etc/slackpkg/blacklist to
+prevent this behaviour:
+  [0-9]+alien
+  [0-9]+compat32
+
+
 Acknowledgements
 ================
 
@@ -306,4 +330,4 @@ Have fun!
 Eric
 
 =============================================================================
-Eric Hameleers <alien@slackware.com> 12-aug-2016
+Eric Hameleers <alien@slackware.com> 04-feb-2019
