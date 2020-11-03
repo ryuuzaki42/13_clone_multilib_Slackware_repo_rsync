@@ -45,8 +45,7 @@ if [ "$input1" == "testColor" ]; then
     echo -e "\\n\\tTest colors: $RED RED $WHITE WHITE $PINK PINK $BLACK BLACK $BLUE BLUE $GREEN GREEN $CYAN CYAN $NC NC\\n"
 fi
 
-# mirrorSource="rsync://taper.alienbase.nl/mirrors/people/alien/multilib"
-mirrorSource="rsync://rsync.slackware.org.uk/people/alien/multilib"
+mirrorSource="rsync://bear.alienbase.nl/mirrors/people/alien/multilib"
 echo -e "$CYAN\\nDefault mirror:$GREEN $mirrorSource$NC"
 
 echo -en "$CYAN\\nWant change the mirror?$NC\\n(y)es - (n)o $GREEN(press enter to no):$NC "
