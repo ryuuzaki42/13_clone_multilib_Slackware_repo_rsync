@@ -90,8 +90,8 @@ else
         echo -e "$CYAN\\nOlder folder download found ($GREEN$versionDownload/$CYAN)$NC"
 
         echo -en "$CYAN\\nDownloading$BLUE CHECKSUMS.md5$CYAN to make a$BLUE fast check$CYAN (the$BLUE local$GREEN "
-        echo -e "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN).$NC Please wait...\\n"
-        rsync -az "$mirrorSource/$versionDownload/CHECKSUMS.md5" ./CHECKSUMS.md5
+        echo -en "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN).$NC Please wait..."
+        rsync -aqz "$mirrorSource/$versionDownload/CHECKSUMS.md5" ./CHECKSUMS.md5
 
         cd "$versionDownload" || exit
         changeLogLocalMd5sum=$(md5sum CHECKSUMS.md5)
