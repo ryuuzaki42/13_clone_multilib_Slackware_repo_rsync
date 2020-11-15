@@ -22,7 +22,7 @@
 #
 # Script: Clone some Slackware repository to a local source using rsync
 #
-# Last update: 03/11/2020
+# Last update: 15/11/2020
 #
 # Tip: Use this script with a "old" local mirror (or ISO) to download less files
 #
@@ -89,37 +89,33 @@ else
     if [ -e $versionDownload/ ]; then
         echo -e "$CYAN\\nOlder folder download found ($GREEN$versionDownload/$CYAN)$NC"
 
-        echo -en "$CYAN\\nDownloading$BLUE CHECKSUMS.md5$CYAN to make a$BLUE fast check$CYAN (the$BLUE local$GREEN "
-        echo -en "CHECKSUMS.md5$CYAN with the$BLUE server$GREEN CHECKSUMS.md5$CYAN).$NC Please wait..."
-        rsync -aqz "$mirrorSource/$versionDownload/CHECKSUMS.md5" ./CHECKSUMS.md5
+        echo -en "$CYAN\\nDownloading$BLUE ChangeLog.txt$CYAN to make a$BLUE fast check$CYAN (the$BLUE local$GREEN "
+        echo -en "ChangeLog.txt$CYAN with the$BLUE server$GREEN ChangeLog.txt$CYAN).$NC Please wait..."
+        rsync -aqz "$mirrorSource/ChangeLog.txt" ./ChangeLog.txt.new
 
-        cd "$versionDownload" || exit
-        changeLogLocalMd5sum=$(md5sum CHECKSUMS.md5)
-        cd ../ || exit
-
-        checkChangeLogMd5sum=$(echo -e "$changeLogLocalMd5sum" | md5sum -c 2> /dev/null)
-
+        changeLogLocalMd5sum=$(md5sum ChangeLog.txt)
+        checkChangeLogMd5sum=$(echo -e "$changeLogLocalMd5sum.new" | md5sum -c 2> /dev/null)
         changeLogMd5sumResult=$(echo -e "$checkChangeLogMd5sum" | awk '{print $2}')
 
-        echo -en "$CYAN\\nThe$BLUE CHECKSUMS.md5$CYAN in the server is"
+        echo -en "$CYAN\\nThe$BLUE ChangeLog.txt$CYAN in the server is"
         contineOrJump='y'
         if [ "$changeLogMd5sumResult" == "OK" ]; then
-            rm CHECKSUMS.md5
+            rm ChangeLog.txt.new
 
-            echo -e "$GREEN equal$CYAN with the$BLUE CHECKSUMS.md5$CYAN in local folder$NC"
+            echo -e "$GREEN equal$CYAN with the$BLUE ChangeLog.txt$CYAN in local folder$NC"
             echo -en "$CYAN\\nWant continue/force the download or jump the download step?$NC\\n(y)es to continue - (n)o to jump $GREEN(press enter to no):$NC "
             read -r contineOrJump
 
         else # $changeLogMd5sumResult == FAILED
-            echo -e "$RED different$CYAN from the$BLUE CHECKSUMS.md5$CYAN in local folder$NC"
+            echo -e "$RED different$CYAN from the$BLUE ChangeLog.txt$CYAN in local folder$NC"
             echo -en "$CYAN\\nWant view the diff between these files?$NC\\n(y)es - (n)o $GREEN(press enter to yes):$NC "
             read -r diffChangLog
 
             if [ "$diffChangLog" != 'n' ]; then
                 echo
-                diff -u CHECKSUMS.md5 $versionDownload/CHECKSUMS.md5
+                diff -u ChangeLog.txt ChangeLog.txt.new
             fi
-            rm CHECKSUMS.md5
+            mv ChangeLog.txt.new ChangeLog.txt
         fi
 
         if [ "$contineOrJump" == 'y' ]; then
