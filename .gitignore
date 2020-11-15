@@ -1,2 +1,9 @@
+
+# Clone folder(s) to stable starting with number
 [0-9]*
+
+# Clone folder current
 current
+
+# File to see changes
+ChangeLog.txt
