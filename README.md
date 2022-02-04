@@ -1,7 +1,7 @@
 ## clone_multilib_Slackware_repo_rsync
 Clone Slackware multilib mirror to a local folder using rsync
 
-#### Default mirror: rsync://bear.alienbase.nl/mirrors/people/alien/multilib
+#### Default mirror: rsync://rsync.slackware.org.uk/people/alien/multilib
 
 #### Use:
 ```sh
