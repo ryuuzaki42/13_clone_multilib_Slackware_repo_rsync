@@ -9,7 +9,7 @@ $ ./clone_Slackware_multilib_rsync_JBs.sh
 ```
 
 #### You can chose:
-* the **Slackware version** (e.g., **14.1**, **14.2**, **current**)
+* the **Slackware version** (e.g., **14.2**, **15.0**, **current**)
 * the architecture (**32** or **64** bits)
 * with **md5 checksum** or not
 
@@ -17,7 +17,7 @@ $ ./clone_Slackware_multilib_rsync_JBs.sh
 
 #### * This procedure will also work if you already had a multilib setup and have upgraded your Slackware to a newer release (new compat32 packages will be installed and existing ones will be upgraded).
 
-1 Open the terminal as root in the downloaded folder (e.g. 14.2)
+1 Open the terminal as root in the downloaded folder (e.g. 15.0)
 
 2 You will need upgrade your 64bit Slackware gcc and glibc packages to their multilib versions by running the command below as root. This also install a new package called "compat32-tools"
 ```sh

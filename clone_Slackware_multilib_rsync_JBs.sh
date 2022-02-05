@@ -71,7 +71,7 @@ else
     defaultSuggest="15.0"
 fi
 
-echo -en "\\n$CYAN# Most downloaded versions:$GREEN 14.0, 14.1, 14.2, 15.0, current$CYAN\\nWith version Slackware you want? $GREEN(press enter to $defaultSuggest):$NC "
+echo -en "\\n$CYAN# Most downloaded versions:$GREEN 14.2, 15.0, current$CYAN\\nWith version Slackware you want? $GREEN(press enter to $defaultSuggest):$NC "
 read -r versionDownload
 
 if [ "$versionDownload" == '' ]; then
