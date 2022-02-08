@@ -1,17 +1,15 @@
 ## clone_multilib_Slackware_repo_rsync
 Clone Slackware multilib mirror to a local folder using rsync
 
-#### Default mirror: rsync://rsync.slackware.org.uk/people/alien/multilib
-
 #### Use:
 ```sh
 $ ./clone_Slackware_multilib_rsync_JBs.sh
 ```
 
 #### You can chose:
+* the **mirror source**, the default is **rsync://rsync.slackware.org.uk/people/alien/multilib**
 * the **Slackware version** (e.g., **14.2**, **15.0**, **current**)
-* the architecture (**32** or **64** bits)
-* with **md5 checksum** or not
+* with **md5 check** or not
 
 ### Enabling multilib # After the clone - download \#
 
@@ -30,7 +28,6 @@ $ ./clone_Slackware_multilib_rsync_JBs.sh
 ```
 
 4 You need to reboot because of the glibc upgrade.
-
 Done : D!
 
 #### You can test if the all packages was installed/upgraded
