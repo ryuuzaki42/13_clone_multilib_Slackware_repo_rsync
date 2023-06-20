@@ -22,9 +22,9 @@
 #
 # Script: Script to check if all packages in a folder are installed
 #
-# Last update: 15/08/2018
+# Last update: 19/06/2023
 #
-echo -e "\\n # Script to check if all packages in a folder (and subfolders) are installed #\\n"
+echo -e "\n # Script to check if all packages in a folder (and subfolders) are installed #\n"
 
 folderWork=$1
 if [ "$folderWork" == '' ]; then
@@ -36,7 +36,7 @@ else
     filesName=$(echo "$files" | rev | cut -d '.' -f2- | cut -d '/' -f1 | rev)
     filesName=$(echo "$filesName" | sort)
 
-    echo -e "Packages not installed:\\n"
+    echo -e "Packages not installed:\n"
     for pkg in $filesName; do
         locatePkg=$(ls "/var/log/packages/$pkg" 2> /dev/null)
 
@@ -45,4 +45,4 @@ else
         fi
     done
 fi
-echo -e "\\n # End of the script #\\n"
+echo -e "\n # End of the script #\n"
